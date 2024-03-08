@@ -1,0 +1,70 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// to understand something is model it is better to make their name in capital letter
+// eg model Post{}
+
+model Post {
+  id           Int            @id @default(autoincrement())
+  title        String
+  content      String
+  published    Boolean
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  userId       Int
+  user         User           @relation(fields: [userId], references: [id])
+  postCategory postCategory[] //post to category many to many realtion
+}
+
+enum Role {
+  user
+  admin
+}
+
+model User {
+  id       Int    @id @default(autoincrement())
+  userName String @unique
+  email    String
+  role     Role
+  // Profile  Profile[] this is auto generated because model and user have one to many relationship
+
+  profile Profile? // * one to one relationship between user and profile
+  Post    Post[] // * user and post have one to many relation because a user can create multiple post
+}
+
+model Profile {
+  id     Int     @id @default(autoincrement())
+  bio    String?
+  userId Int     @unique
+  user   User    @relation(fields: [userId], references: [id])
+}
+
+model Category {
+  id           Int            @id @default(autoincrement())
+  name         String
+  postCategory postCategory[] //category to post many to many relation
+}
+
+// In prisma it is a model
+// But in sql it is called junction table
+model postCategory {
+  postId     Int
+  categoryId Int
+  post       Post @relation(fields: [postId], references: [id])
+
+  category Category @relation(fields: [categoryId], references: [id])
+
+  @@id([postId, categoryId])
+}
