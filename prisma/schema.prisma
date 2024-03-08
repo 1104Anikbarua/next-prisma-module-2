@@ -37,7 +37,7 @@ model User {
   id       Int    @id @default(autoincrement())
   userName String @unique
   email    String
-  role     Role
+  role     Role   @default(user)
   // Profile  Profile[] this is auto generated because model and user have one to many relationship
 
   profile Profile? // * one to one relationship between user and profile
