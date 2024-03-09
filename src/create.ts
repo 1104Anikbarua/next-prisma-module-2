@@ -143,16 +143,76 @@ const prisma = new PrismaClient();
 
 // fluent api
 // we are using id from post model/table and searching user from user table/model
-const main = async () => {
-  const populatePost = await prisma.post
-    .findUnique({
-      where: {
-        id: 4,
-      },
-    })
-    .user();
+// const main = async () => {
+//   const populatePost = await prisma.post
+//     .findUnique({
+//       where: {
+//         id: 4,
+//       },
+//     })
+//     .user();
 
-  console.log(populatePost);
+//   console.log(populatePost);
+// };
+// main();
+
+// show post and user both information
+// const main = async () => {
+//   const populatePost = await prisma.post.findUnique({
+//     where: {
+//       id: 4,
+//     },
+//     include: {
+//       user: true,
+//     },
+//   });
+//   console.log(populatePost);
+// };
+// main();
+
+// show post and use include to show user and post category information
+// const main = async () => {
+//   const populatePost = await prisma.post.findUnique({
+//     where: {
+//       id: 4,
+//     },
+//     include: {
+//       user: true,
+//       postCategory: true,
+//     },
+//   });
+//   console.log(populatePost);
+// };
+// main();
+
+// find those post where publish is true with realtion filter
+const main = async () => {
+  const filteredPost = await prisma.user.findMany({
+    include: {
+      Post: {
+        where: {
+          published: true,
+        },
+      },
+    },
+  });
+
+  console.dir(filteredPost, { depth: Infinity });
 };
 
 main();
+
+// update a post published status
+const setPost = async () => {
+  const updatePost = await prisma.post.update({
+    where: {
+      id: 1,
+    },
+    data: {
+      published: true,
+    },
+  });
+  console.log(updatePost);
+};
+
+// setPost();
