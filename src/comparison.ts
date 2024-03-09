@@ -57,4 +57,34 @@ const mainOr = async () => {
   console.log(filterPosts);
 };
 
-mainOr();
+// mainOr();
+
+const mainNot = async () => {
+  const postResults = await prisma.category.findMany({
+    where: {
+      OR: [
+        {
+          name: {
+            startsWith: "web",
+          },
+        },
+        {
+          name: {
+            startsWith: "pr",
+          },
+        },
+      ],
+      NOT: [
+        {
+          name: {
+            startsWith: "pr",
+          },
+        },
+      ],
+    },
+  });
+
+  console.log(postResults);
+};
+
+mainNot();
