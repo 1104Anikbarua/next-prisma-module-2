@@ -119,26 +119,40 @@ const prisma = new PrismaClient();
 // };
 
 // main();
+// const main = async () => {
+//   const createMultiplePosts = await prisma.post.create({
+//     data: {
+//       title:
+//         "when we have to insert more than one data to any model/table then we have to use array in create",
+//       content: "Inserting multiple content",
+//       published: false,
+//       userId: 1,
+//       postCategory: {
+//         create: [
+//           {
+//             categoryId: 1,
+//           },
+//           { categoryId: 2 },
+//           { categoryId: 4 },
+//         ],
+//       },
+//     },
+//   });
+//   console.log(createMultiplePosts);
+// };
+
+// fluent api
+// we are using id from post model/table and searching user from user table/model
 const main = async () => {
-  const createMultiplePosts = await prisma.post.create({
-    data: {
-      title:
-        "when we have to insert more than one data to any model/table then we have to use array in create",
-      content: "Inserting multiple content",
-      published: false,
-      userId: 1,
-      postCategory: {
-        create: [
-          {
-            categoryId: 1,
-          },
-          { categoryId: 2 },
-          { categoryId: 4 },
-        ],
+  const populatePost = await prisma.post
+    .findUnique({
+      where: {
+        id: 4,
       },
-    },
-  });
-  console.log(createMultiplePosts);
+    })
+    .user();
+
+  console.log(populatePost);
 };
 
 main();
