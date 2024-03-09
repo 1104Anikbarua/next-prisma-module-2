@@ -12,16 +12,133 @@ const prisma = new PrismaClient();
 //   });
 //   console.log(createUser);
 // };
-
 // main();
 
+// create profile
+// const main = async () => {
+//   const createProfile = await prisma.profile.create({
+//     data: {
+//       bio: "This is user one bio",
+//       userId: 1,
+//     },
+//   });
+// };
+// main();
+
+// create category
+// const main = async () => {
+//   const createCategory = await prisma.category.create({
+//     data: {
+//       name: "programming",
+//     },
+//   });
+//   console.log(createCategory);
+// };
+
+// delete category
+// const main = async () => {
+//   const deleteCategory = await prisma.category.delete({
+//     where: {
+//       id: 3,
+//     },
+//   });
+// };
+// main();
+
+// create post in way - 1
+// const main = async () => {
+//   const createPost = await prisma.post.create({
+//     data: {
+//       title: "This is tile-1",
+//       content: "This is content-1",
+//       published: false,
+//       userId: 1,
+//       postCategory: {
+//         create: {
+//           category: {
+//             connect: {
+//               id: 2,
+//             },
+//           },
+//         },
+//       },
+//     },
+//     include: {
+//       postCategory: true,
+//     },
+//   });
+// };
+
+// create post in way-2
+// const main = async () => {
+//   const createPost = await prisma.post.create({
+//     data: {
+//       title: "This is title-2",
+//       content: "This is content-2",
+
+//       published: false,
+//       postCategory: {
+//         create: {
+//           categoryId: 2,
+//         },
+//       },
+//       userId: 3,
+//     },
+//     include: {
+//       postCategory: true,
+//     },
+//   });
+//   console.log(createPost);
+// };
+// main();
+
+// const main=async()=>{
+//     const createCategory=await prisma.category.create({
+//         data:{
+//             name:"app development",
+//             postCategory:{
+//                 create:{
+//                     post:{
+//                         connect:{
+//                             id:1
+//                         }
+//                     }
+//                 }
+//             }
+//         }
+//     })
+// }
+
+// const main = async () => {
+//   const posts = await prisma.post.findMany({
+//     include: {
+//       postCategory: true,
+//     },
+//   });
+//   console.log(posts);
+// };
+
+// main();
 const main = async () => {
-  const createProfile = await prisma.profile.create({
+  const createMultiplePosts = await prisma.post.create({
     data: {
-      bio: "This is user one bio",
+      title:
+        "when we have to insert more than one data to any model/table then we have to use array in create",
+      content: "Inserting multiple content",
+      published: false,
       userId: 1,
+      postCategory: {
+        create: [
+          {
+            categoryId: 1,
+          },
+          { categoryId: 2 },
+          { categoryId: 4 },
+        ],
+      },
     },
   });
+  console.log(createMultiplePosts);
 };
 
 main();
