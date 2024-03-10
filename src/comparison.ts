@@ -87,4 +87,43 @@ const mainNot = async () => {
   console.log(postResults);
 };
 
-mainNot();
+// mainNot();
+
+const mainEquals = async () => {
+  const findEquals = await prisma.user.findMany({
+    where: {
+      email: {
+        equals: "user@gmail.com",
+      },
+    },
+  });
+  //   console.log(findEquals);
+};
+
+// mainEquals();
+
+const mainUpdate = async () => {
+  const updateResult = await prisma.user.update({
+    where: {
+      id: 2,
+    },
+    data: {
+      email: "user2@hotmail.com",
+    },
+  });
+};
+
+// mainUpdate();
+
+const mainEndsWith = async () => {
+  const findResult = await prisma.user.findMany({
+    where: {
+      email: {
+        endsWith: "@hotmail.com",
+      },
+    },
+  });
+  console.log(findResult);
+};
+
+mainEndsWith();
