@@ -18,3 +18,27 @@ const mainNestedInclude = async () => {
 };
 
 // mainNestedInclude();
+
+const mainUpdate = async () => {
+  const updateResult = await prisma.user.update({
+    where: {
+      id: 3,
+    },
+    data: {
+      email: "user3@yahoo.com",
+    },
+  });
+};
+mainUpdate();
+
+const mainIn = async () => {
+  const isMailExists = await prisma.user.findMany({
+    where: {
+      email: {
+        in: ["user@gmail.com", "user2@hotmail.com"],
+      },
+    },
+  });
+  console.log(isMailExists);
+};
+mainIn();
